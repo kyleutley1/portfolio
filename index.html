@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kyle Utley — Mechanical Engineering Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F3F2EE;
+    --paper-alt: #EAE8E1;
+    --ink: #1D1B18;
+    --graphite: #26241F;
+    --graphite-2: #322F28;
+    --steel: #6B6A63;
+    --steel-light: #9A988F;
+    --hairline: #D7D4CB;
+    --yellow: #6FA3D8;
+    --yellow-deep: #2E6BA8;
+    --blue: #4A6FA1;
+    --white: #FFFFFF;
+    /* fixed dark-band colors: hero + footer are always dark, regardless of site theme */
+    --band-bg: #26241F;
+    --band-text: #F3F2EE;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --paper: #171613;
+      --paper-alt: #201E1A;
+      --ink: #F0EEE8;
+      --steel: #ABA89D;
+      --steel-light: #7A776D;
+      --hairline: #38352E;
+      --white: #1D1B18;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #171613;
+    --paper-alt: #201E1A;
+    --ink: #F0EEE8;
+    --steel: #ABA89D;
+    --steel-light: #7A776D;
+    --hairline: #38352E;
+    --white: #1D1B18;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.55;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  h1, h2, h3, .display {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  .wrap {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+  }
+
+  /* ---------------- NAV ---------------- */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(243,242,238,0.92);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  :root[data-theme="dark"] .nav, :root:not([data-theme="light"]) .nav {
+    @media (prefers-color-scheme: dark) { background: rgba(23,22,19,0.92); }
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .nav-name {
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.02em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--steel);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 9px 18px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .nav-mobile-hide { display: flex; }
+  @media (max-width: 700px) {
+    .nav-mobile-hide { display: none; }
+  }
+
+  /* ---------------- HERO ---------------- */
+  .hero {
+    padding: 84px 0 72px;
+    background: var(--band-bg);
+    color: var(--band-text);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 860px) {
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+  .hero-eyebrow {
+    color: var(--yellow);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(46px, 7vw, 76px);
+    margin-bottom: 20px;
+    color: var(--band-text);
+  }
+  .hero-thesis {
+    font-size: 19px;
+    color: #D8D5C9;
+    max-width: 46ch;
+    margin-bottom: 28px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 14.5px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary { background: var(--yellow); color: #1D1B18; }
+  .btn-primary:hover { background: #FFC72C; }
+  .btn-ghost { border-color: #55524A; color: var(--band-text); }
+  .btn-ghost:hover { border-color: var(--yellow); color: var(--yellow); }
+
+  .hero-visual {
+    position: relative;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #423F37;
+  }
+  .hero-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-visual-tag {
+    position: absolute;
+    left: 14px;
+    bottom: 14px;
+    background: rgba(29,27,24,0.85);
+    color: var(--band-text);
+    font-size: 12px;
+    padding: 6px 11px;
+    border-radius: 3px;
+    border: 1px solid #4A473E;
+  }
+
+  /* ---------------- SECTION SCAFFOLDING ---------------- */
+  section { padding: 88px 0; }
+  .section-head { margin-bottom: 48px; max-width: 62ch; }
+  .kicker {
+    color: var(--yellow-deep);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 10px;
+  }
+  .section-head h2 { font-size: clamp(32px, 4vw, 44px); }
+  .section-head p { color: var(--steel); font-size: 17px; margin-top: 14px; max-width: 58ch; }
+
+  /* ---------------- ABOUT ---------------- */
+  .about { background: var(--paper); border-top: 1px solid var(--hairline); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+  }
+  @media (max-width: 700px) {
+    .about-grid { grid-template-columns: 1fr; }
+  }
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+  }
+  .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .about-facts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 32px;
+    margin-top: 26px;
+  }
+  @media (max-width: 500px) { .about-facts { grid-template-columns: 1fr; } }
+  .fact-label {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 5px;
+  }
+  .fact-value { font-size: 15.5px; }
+  .about-bio { font-size: 17px; color: var(--ink); max-width: 60ch; }
+  .about-bio strong { color: var(--ink); }
+
+  /* ---------------- TOOLKIT ---------------- */
+  .toolkit { background: var(--paper-alt); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+  .toolkit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--hairline);
+    border: 1px solid var(--hairline);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  @media (max-width: 860px) { .toolkit-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .toolkit-grid { grid-template-columns: 1fr; } }
+  .toolkit-cell {
+    background: var(--paper);
+    padding: 26px 22px;
+  }
+  .toolkit-cell h3 {
+    font-family: 'Inter', sans-serif;
+    text-transform: none;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .toolkit-cell ul { list-style: none; }
+  .toolkit-cell li {
+    font-size: 14px;
+    color: var(--steel);
+    padding: 3px 0;
+  }
+  .toolkit-number {
+    display: inline-block;
+    color: var(--yellow-deep);
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 800;
+    font-size: 26px;
+    margin-bottom: 6px;
+  }
+
+  /* ---------------- PROJECTS ---------------- */
+  .projects { background: var(--paper); }
+  .project {
+    border-top: 1px solid var(--hairline);
+    padding: 72px 0;
+  }
+  .project:last-child { border-bottom: 1px solid var(--hairline); }
+
+  .project-tag {
+    display: inline-block;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 5px 12px;
+    border-radius: 3px;
+    margin-bottom: 18px;
+  }
+  .project-tag.formula { border-color: var(--blue); color: var(--blue); }
+
+  .project h3 {
+    font-size: clamp(28px, 3.6vw, 40px);
+    margin-bottom: 8px;
+  }
+  .project-meta {
+    color: var(--steel);
+    font-size: 14.5px;
+    font-style: italic;
+    margin-bottom: 22px;
+  }
+  .project-desc {
+    font-size: 16.5px;
+    max-width: 74ch;
+    margin-bottom: 32px;
+  }
+
+  .gallery {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .gallery figure { position: relative; }
+  .gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid var(--hairline);
+  }
+  .gallery figcaption {
+    font-size: 12.5px;
+    color: var(--steel);
+    margin-top: 7px;
+  }
+
+  .gallery.g-hero-two { grid-template-columns: 1.3fr 1fr; }
+  .gallery.g-three { grid-template-columns: repeat(3, 1fr); }
+  .gallery.g-four { grid-template-columns: repeat(2, 1fr); }
+  .compare.compare-diagram .compare-panel img {
+    aspect-ratio: 3 / 4;
+    object-fit: contain;
+    background: var(--white);
+    padding: 16px;
+  }
+
+  .gallery.g-two-even { grid-template-columns: repeat(2, 1fr); }
+  .contain-frame {
+    height: 100%;
+    min-height: 140px;
+    border-radius: 5px;
+    border: 1px solid var(--hairline);
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .contain-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border: none;
+    border-radius: 0;
+  }
+  @media (max-width: 760px) {
+    .gallery.g-hero-two, .gallery.g-three, .gallery.g-four, .gallery.g-two-even {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .deep-dive {
+    margin-top: 12px;
+    padding: 32px;
+    background: var(--paper-alt);
+    border-radius: 8px;
+    border: 1px solid var(--hairline);
+  }
+  .deep-dive-head { margin-bottom: 24px; }
+  .deep-dive-head .kicker { margin-bottom: 8px; }
+  .deep-dive-head h4 {
+    font-family: 'Big Shoulders Display', sans-serif;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 24px;
+  }
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 26px;
+  }
+  @media (max-width: 700px) {
+    .compare { grid-template-columns: 1fr; }
+    .compare .arrow { transform: rotate(90deg); margin: 4px auto; }
+  }
+  .compare:last-child { margin-bottom: 0; }
+  .compare-panel img {
+    border-radius: 5px;
+    border: 1px solid var(--hairline);
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+  }
+  .compare-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 10px;
+    color: var(--steel);
+  }
+  .compare-label.after { color: var(--yellow-deep); }
+  .compare-text {
+    font-size: 13.5px;
+    color: var(--steel);
+    margin-top: 5px;
+  }
+  .arrow {
+    width: 28px; height: 28px;
+    color: var(--steel-light);
+    flex-shrink: 0;
+  }
+
+  .callout-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .callout-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+  }
+  .callout-dot {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: #1D1B18;
+    font-weight: 800;
+    font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+
+  .result-block {
+    border-top: 1px solid var(--hairline);
+    padding-top: 26px;
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 760px) { .result-block { grid-template-columns: 1fr; } }
+  .result-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--yellow-deep);
+    margin-bottom: 8px;
+  }
+  .result-text { font-size: 16.5px; font-weight: 600; margin-bottom: 14px; }
+  .sub-line { font-size: 14px; color: var(--steel); margin-bottom: 6px; }
+  .sub-line em { font-style: italic; color: var(--ink); }
+  .tools-row {
+    margin-top: 18px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tool-chip {
+    font-size: 12.5px;
+    padding: 5px 11px;
+    border: 1px solid var(--hairline);
+    border-radius: 20px;
+    color: var(--steel);
+  }
+
+  /* ---------------- FOOTER / CONTACT ---------------- */
+  .contact {
+    background: var(--band-bg);
+    color: var(--band-text);
+    padding: 90px 0 60px;
+  }
+  .contact h2 {
+    font-size: clamp(36px, 5vw, 56px);
+    color: var(--band-text);
+    margin-bottom: 18px;
+  }
+  .contact p { color: #C9C6BA; font-size: 17px; max-width: 52ch; margin-bottom: 36px; }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 28px 48px;
+  }
+  @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
+  .contact-item { font-size: 15.5px; }
+  .contact-item .fact-label { color: #8B8879; }
+  .contact-item a:hover { color: var(--yellow); }
+  .footer-bottom {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid #3A372F;
+    font-size: 13px;
+    color: #7A7768;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="nav-name">KYLE UTLEY</a>
+    <div class="nav-mobile-hide" style="align-items:center; gap:28px;">
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a href="#contact" class="nav-cta">Get in touch</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-eyebrow">MECHANICAL ENGINEERING PORTFOLIO</div>
+      <h1>Kyle Utley</h1>
+      <p class="hero-thesis">A design isn't finished when it works on paper. It's finished when it's survived contact with reality: production floors, race weekends, and everything that goes wrong in between.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="resumes/Kyle_Utley_Resume_Core.pdf" download class="btn btn-ghost" id="resume-download">Download Resume</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <img src="assets/wheel-speed-hero.png" alt="Wheel hub assembly with tone ring and magnetic speed sensor mount, CAD render">
+      <div class="hero-visual-tag">Wheel-speed sensing assembly, CAD render</div>
+    </div>
+  </div>
+</header>
+
+<section class="about" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="about-photo">
+        <img src="assets/headshot.png" alt="Kyle Utley headshot">
+      </div>
+    </div>
+    <div>
+      <div class="kicker">ABOUT</div>
+      <p class="about-bio"><strong>Automotive-focused mechanical engineer</strong> with hands-on experience across OEM production equipment and race-car component design, from diagnosing shop-floor failures to designing and validating hardware on a Formula SAE car.</p>
+      <div class="about-facts">
+        <div>
+          <div class="fact-label">Education</div>
+          <div class="fact-value">B.S. Mechanical Engineering, University of Alabama, Class of 2028</div>
+        </div>
+        <div>
+          <div class="fact-label">Program</div>
+          <div class="fact-value">Honors College · Automotive Minor · Accelerated STEM-to-MBA</div>
+        </div>
+        <div>
+          <div class="fact-label">Coursework</div>
+          <div class="fact-value">Machine Design, Dynamics, Materials, Controls</div>
+        </div>
+        <div>
+          <div class="fact-label">Seeking</div>
+          <div class="fact-value">Summer 2027 internship, vehicle dynamics / manufacturing</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="toolkit">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:36px;">
+      <div class="kicker">TECHNICAL TOOLKIT</div>
+      <h2 style="font-size: clamp(28px, 3.4vw, 38px);">What I build with</h2>
+    </div>
+    <div class="toolkit-grid">
+      <div class="toolkit-cell">
+        <h3>CAD &amp; Simulation</h3>
+        <ul>
+          <li>SolidWorks</li>
+          <li>CATIA</li>
+          <li>FEA Analysis</li>
+          <li>Fusion 360</li>
+        </ul>
+      </div>
+      <div class="toolkit-cell">
+        <h3>Manufacturing</h3>
+        <ul>
+          <li>CNC Machining</li>
+          <li>Waterjet &amp; Plasma Cutting</li>
+          <li>MIG Welding</li>
+          <li>Lathe, Mill, 3D Printing</li>
+        </ul>
+      </div>
+      <div class="toolkit-cell">
+        <h3>Electrical &amp; Sensors</h3>
+        <ul>
+          <li>Sensor Selection</li>
+          <li>Sensor Integration</li>
+          <li>Wiring &amp; Installation</li>
+        </ul>
+      </div>
+      <div class="toolkit-cell">
+        <h3>Testing &amp; Validation</h3>
+        <ul>
+          <li>FOS Analysis</li>
+          <li>FMEA</li>
+          <li>Root Cause Analysis</li>
+          <li>Line Trials</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">SELECTED PROJECTS</div>
+      <h2>Four projects, one habit</h2>
+      <p>Every one of these started as a real failure or an open question, then got designed, built, and proven under real conditions before I called it done.</p>
+    </div>
+
+    <!-- PROJECT 1: LIFT ASSIST -->
+    <article class="project">
+      <span class="project-tag">HONDA</span>
+      <h3>Rear Suspension Lift-Assist</h3>
+      <p class="project-meta">Equipment Engineering Co-op, Honda Motors · Lincoln, AL · Fall 2024 – Spring 2025</p>
+      <p class="project-desc">Originally scoped as a reinforcement fix for the failure-prone body of an aging lift-assist, the project grew into a full rebuild after repeated patch-fixes on the old unit caused frequent breakdowns and line downtime. Designed, cut, welded, and painted a new frame in-house, then rebuilt the pneumatic circuit (solenoid valves, controls, and tubing) around a single hub so the whole system is traceable at a glance. Replaced the old rigid contact point with a C-joint and rubber pads to cut the physical toll on associates, and simplified the connection down to the bottom cylinder.</p>
+
+      <div class="gallery g-hero-two">
+        <figure>
+          <img src="assets/lift-hero.jpg" alt="Lift assist unit suspended from overhead hoist, being load tested">
+          <figcaption>Lift assist being pulled to a FOS of 1.7</figcaption>
+        </figure>
+        <figure style="display:grid; gap:12px;">
+          <img src="assets/lift-build.jpg" alt="Completed lift assist build on the shop floor">
+          <img src="assets/lift-line-trial.jpg" alt="First line trial installing a rear suspension unit">
+        </figure>
+      </div>
+
+      <div class="deep-dive">
+        <div class="deep-dive-head">
+          <div class="kicker">DESIGN DEEP DIVE</div>
+          <h4>From Patchwork to Rebuild</h4>
+        </div>
+
+        <div class="compare">
+          <div class="compare-panel">
+            <img src="assets/lift-pneumatic-before.jpg" alt="Original tangled pneumatic tubing and fittings">
+            <div class="compare-label">Original pneumatic layout</div>
+            <div class="compare-text">Quick repairs left the routing untraceable, extending diagnostic time with every failure.</div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="compare-panel">
+            <img src="assets/lift-pneumatic-after.jpg" alt="Redesigned centralized pneumatic valve hub">
+            <div class="compare-label after">Updated centralized hub</div>
+            <div class="compare-text">All valves and tubing routed to a single serviceable point, cutting diagnostic time.</div>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compare-panel">
+            <img src="assets/lift-limiter-before.jpg" alt="Worn metal-on-metal arm rotation limiter joint">
+            <div class="compare-label">Original arm rotation limiter</div>
+            <div class="compare-text">Metal-to-metal contact accelerated wear on the mechanism and the associate, repeatedly cracking the limiter.</div>
+          </div>
+          <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="compare-panel">
+            <img src="assets/lift-limiter-after.jpg" alt="Redesigned rubber-padded C-clamp limiter">
+            <div class="compare-label after">Updated rubber-padded limiter</div>
+            <div class="compare-text">A rubber-padded C-clamp absorbed impact loads previously transmitted into the structure and the user.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-block">
+        <div>
+          <div class="result-label">RESULT</div>
+          <div class="result-text">In service over a year with zero unplanned downtime, only routine rubber pad replacement.</div>
+          <div class="sub-line">Validated via: <em>stress tested to a factor of safety of 1.7</em></div>
+          <div class="sub-line">Key insight: <em>fixing the root design instead of the failure points ended the maintenance cycle.</em></div>
+        </div>
+        <div>
+          <div class="result-label">TOOLS &amp; METHODS</div>
+          <div class="tools-row">
+            <span class="tool-chip">CATIA</span>
+            <span class="tool-chip">Fabrication</span>
+            <span class="tool-chip">Pneumatic Systems</span>
+            <span class="tool-chip">Solenoid Valve Controls</span>
+            <span class="tool-chip">FOS Analysis</span>
+            <span class="tool-chip">Line Trials</span>
+            <span class="tool-chip">Plasma Cutting</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 2: PART-PRESENCE SWITCHES -->
+    <article class="project">
+      <span class="project-tag">HONDA</span>
+      <h3>Part-Presence Switches — Battery Lift-Assist</h3>
+      <p class="project-meta">Equipment Engineering Co-op, Honda Motors · Lincoln, AL · Spring 2025</p>
+      <p class="project-desc">Designed, fabricated, and integrated part-presence switches into the battery lift-assist fixture to confirm proper grabber engagement before lift initiation. Resolved recurring failure modes present in the previous design, which was prone to frequent jamming, resulting in improved reliability, reduced downtime, and a more efficient assembly process.</p>
+
+      <div class="compare compare-diagram">
+        <div class="compare-panel">
+          <img src="assets/switch-old-diagram.png" alt="Diagram of old pin-based switch design">
+          <div class="compare-label">Old pin design</div>
+          <div class="compare-text">A linear pin had to seat into the sensor by hand, an alignment-sensitive interface prone to binding and jamming.</div>
+        </div>
+        <svg class="arrow" viewBox="0 0 24 24" fill="none"><path d="M4 12h15M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="compare-panel">
+          <img src="assets/switch-new-diagram.png" alt="Diagram of new rotating lever switch design">
+          <div class="compare-label after">New switch design</div>
+          <div class="compare-text">A rotating lever engages the sensor directly, removing the pin-binding failure mode entirely.</div>
+        </div>
+      </div>
+      <div class="gallery g-two-even" style="margin-top:24px;">
+        <figure>
+          <img src="assets/switch-final-iteration.jpg" alt="Final switch iteration parts side by side">
+          <figcaption>Final iteration</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/switch-installed.jpg" alt="Redesigned switch installed on the battery lift-assist">
+          <figcaption>Switches implemented on the lift assist</figcaption>
+        </figure>
+      </div>
+
+      <div class="deep-dive">
+        <div class="deep-dive-head">
+          <div class="kicker">THE PROBLEM</div>
+          <h4>Diagnosing the Jam</h4>
+        </div>
+        <div class="gallery" style="grid-template-columns: 1fr 1.1fr; gap: 28px; align-items:center;">
+          <figure>
+            <img src="assets/switch-problem.jpg" alt="Part-presence switch assembly on the battery fixture">
+          </figure>
+          <div class="callout-list">
+            <div class="callout-item">
+              <span class="callout-dot">1</span>
+              <span><strong>Part-presence indicator: ON,</strong> the fixture reads a false positive.</span>
+            </div>
+            <div class="callout-item">
+              <span class="callout-dot">2</span>
+              <span><strong>Pin jammed on sensor,</strong> the root cause: the original pin design binds under repeated cycling.</span>
+            </div>
+            <div class="callout-item">
+              <span class="callout-dot">3</span>
+              <span><strong>No battery present,</strong> the actual, unsafe state the jammed pin was masking.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-block">
+        <div>
+          <div class="result-label">RESULT</div>
+          <div class="result-text">Fabricated the switch components in-house using Delrin for the actuator flags and 1/8-in. steel for the housing. Validated performance through between-shift installation and testing prior to full production implementation.</div>
+          <div class="sub-line">Validated via: <em>line trials</em></div>
+          <div class="sub-line">Key insight: <em>material selection took a couple of tries: metal was ruled out immediately, and even nylon proved too abrasive against the battery face before Delrin's lower friction made it the right fit.</em></div>
+        </div>
+        <div>
+          <div class="result-label">TOOLS &amp; METHODS</div>
+          <div class="tools-row">
+            <span class="tool-chip">CATIA</span>
+            <span class="tool-chip">Milling</span>
+            <span class="tool-chip">Drilling &amp; Tapping</span>
+            <span class="tool-chip">Delrin Machining</span>
+            <span class="tool-chip">FMEA</span>
+            <span class="tool-chip">Line Trials</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 3: BELLCRANK -->
+    <article class="project">
+      <span class="project-tag formula">FORMULA SAE</span>
+      <h3>Rear Bellcrank Design</h3>
+      <p class="project-meta">Suspension Team Member, Crimson Racing – Formula SAE · Fall 2025</p>
+      <p class="project-desc">Designed a new rear bellcrank from the ground up, working within fixed attachment points for the pullrod, pushrod, and pivot. Modeled the geometry in SolidWorks, ran FEA against the known load case the part would see, and machined the final part from 7075-T6 aluminum, selected over steel to minimize mass while holding FOS comfortably above 1.6.</p>
+
+      <div class="gallery g-hero-two">
+        <figure>
+          <img src="assets/bellcrank-fea.png" alt="FEA stress analysis of bellcrank on von Mises scale">
+          <figcaption>Final design FEA on von Mises scale</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/bellcrank-assembly-cad.png" alt="CAD render of bellcranks fitted onto the suspension assembly">
+          <figcaption>Bellcranks fitted onto suspension assembly</figcaption>
+        </figure>
+      </div>
+      <div class="gallery g-three" style="margin-top:-24px;">
+        <figure>
+          <img src="assets/bellcrank-machined.jpg" alt="Front and rear bellcranks after waterjet cutting">
+          <figcaption>Front and rear bellcranks post-waterjet</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/bellcrank-milling.jpg" alt="Milling holes for push bearings on a manual mill">
+          <figcaption>Milling holes for push bearings</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/bellcrank-installed.jpg" alt="Rear bellcranks installed on the race car">
+          <figcaption>Rear bellcranks installed on the car</figcaption>
+        </figure>
+      </div>
+
+      <div class="result-block">
+        <div>
+          <div class="result-label">RESULT</div>
+          <div class="result-text">Held up across every drive day and competition run of the season with no failures or performance issues, validating the design under real cornering loads.</div>
+          <div class="sub-line">Validated via: <em>FEA and on-car testing</em></div>
+          <div class="sub-line">Key insight: <em>analysis gave confidence in the design, but a full season without failure was what actually proved it.</em></div>
+        </div>
+        <div>
+          <div class="result-label">TOOLS &amp; METHODS</div>
+          <div class="tools-row">
+            <span class="tool-chip">SolidWorks</span>
+            <span class="tool-chip">FEA</span>
+            <span class="tool-chip">CNC Machining</span>
+            <span class="tool-chip">Milling</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROJECT 4: WHEEL SPEED SENSOR -->
+    <article class="project">
+      <span class="project-tag formula">FORMULA SAE</span>
+      <h3>Wheel Speed Sensor Validation</h3>
+      <p class="project-meta">Suspension Team Member, Crimson Racing – Formula SAE · Spring 2026</p>
+      <p class="project-desc">Designed a slotted tone ring and a mounting bracket to position a magnetic speed sensor at the wheel hub. As the tone ring rotates, the sensor detects each passing slot via magnetic reading, and the resulting pulse frequency correlates directly to rotation speed, and by extension, vehicle speed. Modeled the tone ring's slot geometry and spacing in SolidWorks, had it waterjet-cut, and mounted it at the hub to validate both the sensing method and the underlying frequency-to-speed calculation for shared use across the team's combustion and electric cars.</p>
+
+      <div class="gallery g-hero-two">
+        <figure>
+          <img src="assets/wheel-speed-hero.png" alt="Full wheel hub, caliper, and tone ring assembly CAD render">
+          <figcaption>Wheel hub assembly with tone ring and sensor mount</figcaption>
+        </figure>
+        <figure style="display:grid; gap:12px;">
+          <div class="contain-frame"><img src="assets/wheel-speed-bracket.png" alt="Sensor mounting bracket CAD render"></div>
+          <div class="contain-frame"><img src="assets/wheel-speed-tone-ring.png" alt="Slotted tone ring CAD render"></div>
+        </figure>
+      </div>
+
+      <div class="result-block">
+        <div>
+          <div class="result-label">RESULT</div>
+          <div class="result-text">Validated a shared wheel-speed-sensing method, with the sensor, tone ring, and mounting geometry all designed in-house, for use across both the combustion and electric platforms.</div>
+          <div class="sub-line">Validated via: <em>on-track data logging, comparing the logged speedometer to the wheel speed sensor results</em></div>
+          <div class="sub-line">Key insight: <em>validating on the hub instead of the bench forced the design to work in real conditions, making it trustworthy enough to carry over to the electric car.</em></div>
+        </div>
+        <div>
+          <div class="result-label">TOOLS &amp; METHODS</div>
+          <div class="tools-row">
+            <span class="tool-chip">SolidWorks</span>
+            <span class="tool-chip">Sensor Integration</span>
+            <span class="tool-chip">3D Printing</span>
+            <span class="tool-chip">Waterjet Manufacturing</span>
+            <span class="tool-chip">On-Track Testing</span>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<footer class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's build something.</h2>
+    <p>Looking for a Summer 2027 internship in vehicle dynamics, manufacturing, or automotive R&amp;D. Always happy to talk shop.</p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <div class="fact-label">Email</div>
+        <a href="mailto:kjutley@crimson.ua.edu">kjutley@crimson.ua.edu</a>
+      </div>
+      <div class="contact-item">
+        <div class="fact-label">Phone</div>
+        <a href="tel:6154191222">615-419-1222</a>
+      </div>
+      <div class="contact-item">
+        <div class="fact-label">LinkedIn</div>
+        <a href="https://linkedin.com/in/kyle-utley" target="_blank" rel="noopener">linkedin.com/in/kyle-utley</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Kyle Utley · Mechanical Engineering Portfolio</span>
+      <span>University of Alabama · Class of 2028</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Serve the resume that matches whichever variant the visitor arrived from.
+  // Add ?resume=manufacturing or ?resume=defense to the site link on those
+  // resume variants; no parameter (or any other value) falls back to Core.
+  (function () {
+    var RESUMES = {
+      core: "resumes/Kyle_Utley_Resume_Core.pdf",
+      manufacturing: "resumes/Kyle_Utley_Resume_Manufacturing.pdf",
+      defense: "resumes/Kyle_Utley_Resume_Defense_Aero.pdf"
+    };
+    try {
+      var param = new URLSearchParams(window.location.search).get("resume");
+      var href = RESUMES[param] || RESUMES.core;
+      var btn = document.getElementById("resume-download");
+      if (btn) {
+        btn.setAttribute("href", href);
+      }
+    } catch (e) {
+      // If anything goes wrong, the button keeps its default Core resume link.
+    }
+  })();
+</script>
+</body>
+</html>
